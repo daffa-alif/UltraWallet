@@ -4,17 +4,16 @@ import { cookies } from 'next/headers'
 const COOKIE_NAME = 'ultra_session'
 
 export function signSession(payload: { id: string; email: string; username?: string }) {
-  const secret = process.env.JWT_SECRET
-  if (!secret) throw new Error('Missing JWT_SECRET')
+  const secret = process.env.JWT_SECRET || process.env.SESSION_SECRET
+  if (!secret) throw new Error('Missing JWT_SECRET or SESSION_SECRET')
   return jwt.sign(payload, secret, { expiresIn: '7d' })
 }
 
 export function verifySession(token: string) {
-  const secret = process.env.JWT_SECRET
-  if (!secret) throw new Error('Missing JWT_SECRET')
-  return jwt.verify(token, secret) as { id: string; email: string; username?: string; iat: number; exp: number }
+  const secret = process.env.JWT_SECRET || process.env.SESSION_SECRET
+  if (!secret) throw new Error('Missing JWT_SECRET or SESSION_SECRET')
+  return jwt.verify(token, secret) as { id: string; email: string; username?: string; iat: number; exp: number } 
 }
-
 export function setSessionCookie(token: string) {
   cookies().set(COOKIE_NAME, token, {
     httpOnly: true,
