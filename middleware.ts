@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import jwt from 'jsonwebtoken'
 
 const COOKIE_NAME = 'ultra_session'
 
@@ -12,18 +11,10 @@ export function middleware(req: NextRequest) {
       const url = new URL('/login', req.url)
       return NextResponse.redirect(url)
     }
-    try {
-      const secret = process.env.JWT_SECRET
-      if (!secret) throw new Error('Missing JWT_SECRET')
-      jwt.verify(token, secret)
-    } catch {
-      const url = new URL('/login', req.url)
-      return NextResponse.redirect(url)
-    }
   }
   return NextResponse.next()
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*']
+  matcher: ['/dashboard/:path*', '/portfolio/:path*']
 }
