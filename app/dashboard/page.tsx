@@ -1,26 +1,29 @@
-import { readSession } from '@/lib/auth'
+'use client'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-export const dynamic = 'force-dynamic'
-
 export default function DashboardPage() {
-  const session = readSession()
-  const username = session?.username || 'User'
-  
-  const portfolio = [
-    { name: 'Bitcoin',    ticker: 'BTC',   type: 'crypto',  amount: '1.84',   value: 124840, change: 4.2,  icon: '₿',  color: 'yellow' },
-    { name: 'Ethereum',   ticker: 'ETH',   type: 'crypto',  amount: '12.5',   value: 48002,  change: 1.8,  icon: 'Ξ',  color: 'blue' },
-    { name: 'Gold',       ticker: 'XAU',   type: 'metal',   amount: '12 oz',  value: 28101,  change: -0.3, icon: '⚡', color: 'amber' },
-    { name: 'Apple Inc.', ticker: 'AAPL',  type: 'stock',   amount: '100 sh', value: 18940,  change: 0.9,  icon: '🍎', color: 'gray' },
-    { name: 'Tesla',      ticker: 'TSLA',  type: 'stock',   amount: '30 sh',  value: 7467,   change: -1.2, icon: '⚡', color: 'red' },
-    { name: 'RE Token',   ticker: 'NYCT',  type: 'realty',  amount: '500 tk', value: 64519,  change: 0.5,  icon: '🏘️', color: 'green' },
-    { name: 'Solana',     ticker: 'SOL',   type: 'crypto',  amount: '185',    value: 31931,  change: 5.2,  icon: '◎',  color: 'purple' },
-    { name: 'Silver',     ticker: 'XAG',   type: 'metal',   amount: '30 oz',  value: 883,    change: 0.7,  icon: '⚪', color: 'slate' },
-  ]
+  const [data, setData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
 
-  const totalValue = portfolio.reduce((a, b) => a + b.value, 0)
-  const cryptoVal = portfolio.filter(a => a.type === 'crypto').reduce((a, b) => a + b.value, 0)
-  const realVal = portfolio.filter(a => ['metal', 'stock', 'realty'].includes(a.type)).reduce((a, b) => a + b.value, 0)
+  useEffect(() => {
+    fetch('/api/user/portfolio')
+      .then(res => res.json())
+      .then(d => {
+        setData(d)
+        setLoading(false)
+      })
+      .catch(() => setLoading(false))
+  }, [])
+
+  if (loading) return <div className="p-10 text-ultra-sub font-mono">Loading Dashboard...</div>
+  if (!data || data.error) return <div className="p-10 text-ultra-red font-mono">Error: {data?.error || 'Failed to load'}</div>
+
+  const username = data.username || 'User'
+  const portfolio = data.portfolio || []
+  const totalValue = portfolio.reduce((a: number, b: any) => a + (Number(b.value) || 0), 0)
+  const cryptoVal = portfolio.filter((a: any) => a.type === 'crypto').reduce((a: number, b: any) => a + (Number(b.value) || 0), 0)
+  const realVal = portfolio.filter((a: any) => ['metal', 'stock', 'realty'].includes(a.type)).reduce((a: number, b: any) => a + (Number(b.value) || 0), 0)
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-10">
@@ -54,12 +57,12 @@ export default function DashboardPage() {
         <div className="bg-ultra-card border border-ultra-border rounded-2xl p-6">
           <p className="text-xs font-mono text-ultra-sub uppercase tracking-widest mb-3">Crypto Value</p>
           <p className="font-mono text-2xl font-bold text-yellow-400">${cryptoVal.toLocaleString()}</p>
-          <p className="text-ultra-sub text-xs font-mono mt-2">{Math.round(cryptoVal / totalValue * 100)}% of portfolio</p>
+          <p className="text-ultra-sub text-xs font-mono mt-2">{totalValue > 0 ? Math.round(cryptoVal / totalValue * 100) : 0}% of portfolio</p>
         </div>
         <div className="bg-ultra-card border border-ultra-border rounded-2xl p-6">
           <p className="text-xs font-mono text-ultra-sub uppercase tracking-widest mb-3">Real Assets</p>
           <p className="font-mono text-2xl font-bold text-ultra-gold">${realVal.toLocaleString()}</p>
-          <p className="text-ultra-sub text-xs font-mono">{Math.round(realVal / totalValue * 100)}% of portfolio</p>
+          <p className="text-ultra-sub text-xs font-mono">{totalValue > 0 ? Math.round(realVal / totalValue * 100) : 0}% of portfolio</p>
         </div>
         <div className="bg-ultra-card border border-ultra-border rounded-2xl p-6">
           <p className="text-xs font-mono text-ultra-sub uppercase tracking-widest mb-3">24h P&L</p>
@@ -87,7 +90,7 @@ export default function DashboardPage() {
                 </tr>
               </thead>
               <tbody>
-                {portfolio.map((asset) => (
+                {portfolio.map((asset: any) => (
                   <tr key={asset.ticker} className="border-b border-ultra-border/50 hover:bg-ultra-surface/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-3">
@@ -101,7 +104,7 @@ export default function DashboardPage() {
                       </div>
                     </td>
                     <td className="px-4 py-4 text-right font-mono text-ultra-sub text-xs">{asset.amount}</td>
-                    <td className="px-4 py-4 text-right font-mono font-semibold">${asset.value.toLocaleString()}</td>
+                    <td className="px-4 py-4 text-right font-mono font-semibold">${Number(asset.value).toLocaleString()}</td>
                     <td className="px-6 py-4 text-right">
                       <span className={`font-mono text-xs font-bold px-2 py-1 rounded-md ${asset.change >= 0 ? 'text-ultra-green bg-ultra-green/10' : 'text-ultra-red bg-ultra-red/10'}`}>
                         {asset.change >= 0 ? '+' : ''}{asset.change}%
@@ -117,7 +120,7 @@ export default function DashboardPage() {
         {/* Sidebar */}
         <div className="space-y-5">
 
-          {/* Allocation Donut (visual) */}
+          {/* Allocation visual */}
           <div className="bg-ultra-card border border-ultra-border rounded-2xl p-6">
             <h3 className="font-display font-bold mb-5">Allocation</h3>
             <div className="space-y-3">
@@ -133,7 +136,7 @@ export default function DashboardPage() {
                     <span className="text-ultra-text">{cat.pct}%</span>
                   </div>
                   <div className="h-1.5 bg-ultra-border rounded-full overflow-hidden">
-                    <div className="h-full rounded-full ${cat.color}" style={{ width: `${cat.pct}%` }}></div>
+                    <div className={`h-full rounded-full ${cat.color}`} style={{ width: `${cat.pct}%` }}></div>
                   </div>
                 </div>
               ))}
