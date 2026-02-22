@@ -1,6 +1,7 @@
 <?php
 // wallet.php
 $pageTitle = 'Connect Wallet — UltraWallet';
+require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/includes/header.php';
 
 $walletVendors = [

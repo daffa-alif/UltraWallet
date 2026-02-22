@@ -147,6 +147,14 @@ $user = getCurrentUser();
 </head>
 <body class="noise-bg grid-bg min-h-screen relative">
 
+<?php if (!extension_loaded("mongodb")): ?>
+<div style="position:relative;z-index:50;background:rgba(120,53,15,0.4);border-bottom:1px solid rgba(245,158,11,0.3);padding:.4rem 1.5rem;text-align:center;font-size:.7rem;font-family:Space Mono,monospace;color:#fcd34d;display:flex;align-items:center;justify-content:center;gap:.75rem;flex-wrap:wrap;">
+  <span style="color:#f59e0b;font-weight:bold"><body class="noise-bg grid-bg min-h-screen relative">#9888; Dev Mode</span>
+  <span style="color:rgba(253,230,138,0.7)">MongoDB extension not loaded <body class="noise-bg grid-bg min-h-screen relative">mdash; using local JSON storage. Fully functional.</span>
+  <a href="#mongo-setup" style="color:#f59e0b;text-decoration:underline;">Enable MongoDB <body class="noise-bg grid-bg min-h-screen relative">rarr;</a>
+</div>
+<?php endif; ?>
+
 <!-- Live Ticker -->
 <div class="ticker-wrap border-b border-ultra-border bg-ultra-surface/80 backdrop-blur-sm py-2 text-xs font-mono text-ultra-sub z-50 relative">
     <div class="ticker-inner">

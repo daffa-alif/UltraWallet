@@ -10,6 +10,7 @@ $user = getCurrentUser();
 require_once __DIR__ . '/config/database.php';
 
 try {
+    $users = Database::getCollection('users');
     $userData = Database::findOne('users', ['_id' => $_SESSION['user_id']]);
 } catch (Exception $e) {
     $userData = null;

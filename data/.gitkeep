@@ -1,0 +1,3 @@
+# This folder stores JSON data files when MongoDB extension is not available.
+# It is auto-created. Do not delete.
+# When you enable extension=mongodb in php.ini, this folder is no longer used.

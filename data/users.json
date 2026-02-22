@@ -1,0 +1,32 @@
+[
+    {
+        "username": "daffaaliefiandyy",
+        "email": "daffa@gmail.com",
+        "password": "$2y$10$saZL\/XyouSAskt9mNAwa2etOmgRAexZ4LUfceUXZX.81NcDJ8wc5K",
+        "created_at": "2026-02-22T11:07:21+01:00",
+        "portfolio": [],
+        "wallets": [],
+        "kyc_status": "pending",
+        "_id": "dd98ca42492a84e09b481bc6"
+    },
+    {
+        "username": "FQJcRIxBfk",
+        "email": "FQJcRIxBfk@test.com",
+        "password": "$2y$10$RGp4t5PsU7HfgB3QLRhGBuHyw6Sy4FqwC.s4q0cSBMRt1cXmLIL0e",
+        "created_at": "2026-02-22T11:13:56+01:00",
+        "portfolio": [],
+        "wallets": [],
+        "kyc_status": "pending",
+        "_id": "18790331f533567e0603ad09"
+    },
+    {
+        "username": "xmZdwljgRp",
+        "email": "xmZdwljgRp@test.com",
+        "password": "$2y$10$w0mfztKpLEQbKK77IB93y.7o8294hcDiZk7.dVmYPqPG2zG6d9b.q",
+        "created_at": "2026-02-22T11:14:33+01:00",
+        "portfolio": [],
+        "wallets": [],
+        "kyc_status": "pending",
+        "_id": "790305fe1e6ac28f5921fe8b"
+    }
+]

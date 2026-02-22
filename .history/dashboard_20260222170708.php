@@ -10,7 +10,8 @@ $user = getCurrentUser();
 require_once __DIR__ . '/config/database.php';
 
 try {
-    $userData = Database::findOne('users', ['_id' => $_SESSION['user_id']]);
+    $users = Database::getCollection('users');
+    $userData = $users->findOne(['_id' => new MongoDB\BSON\ObjectId($_SESSION['user_id'])]);
 } catch (Exception $e) {
     $userData = null;
 }
