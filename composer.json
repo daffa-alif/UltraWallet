@@ -1,15 +1,10 @@
 {
     "name": "ultrawallet/app",
-    "description": "UltraWallet - Web3 Multi-Asset Platform",
+    "description": "UltraWallet — Web3 Multi-Asset Platform",
     "type": "project",
     "require": {
         "php": ">=8.0",
-        "mongodb/mongodb": "^1.16",
-        "vlucas/phpdotenv": "^5.5"
+        "ext-mongodb": "*"
     },
-    "autoload": {
-        "psr-4": {
-            "UltraWallet\\": "src/"
-        }
-    }
+    "note": "No Composer packages needed. Only the MongoDB PECL extension is required. See README.md for setup."
 }

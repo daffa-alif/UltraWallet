@@ -1,6 +1,6 @@
 <?php
 // login.php
-$pageTitle = 'Sign In — UltraWallet';
+$pageTitle = 'Sign In - UltraWallet';
 require_once __DIR__ . '/config/session.php';
 
 if (isLoggedIn()) {
@@ -20,14 +20,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Email and password are required.';
     } else {
         try {
-            $users = Database::getCollection('users');
-            $user  = $users->findOne(['email' => $email]);
-
+            $user = Database::findOne('users', ['email' => $email]);
             if ($user && password_verify($password, $user['password'])) {
-                $_SESSION['user_id'] = (string) $user['_id'];
+                $uid = isset($user['_id']) ? (string)$user['_id'] : uniqid();
+                $_SESSION['user_id'] = $uid;
                 $_SESSION['user']    = [
-                    'id'       => (string) $user['_id'],
-                    'username' => $user['username'],
+                    'id'       => $uid,
+                    'username' => $user['username'] ?? 'User',
                     'email'    => $user['email'],
                 ];
                 header('Location: /dashboard.php');
@@ -36,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'Invalid email or password.';
             }
         } catch (Exception $e) {
-            $error = 'Login failed. Please try again.';
+            $error = 'Login error. Please try again.';
         }
     }
 }
@@ -57,7 +56,7 @@ require_once __DIR__ . '/includes/header.php';
 
         <?php if ($error): ?>
         <div class="mb-6 px-4 py-3 rounded-xl border border-ultra-red/30 bg-ultra-red/10 text-ultra-red text-sm">
-            ⚠ <?= htmlspecialchars($error) ?>
+            &#9888; <?= htmlspecialchars($error) ?>
         </div>
         <?php endif; ?>
 
@@ -68,40 +67,31 @@ require_once __DIR__ . '/includes/header.php';
                     class="w-full bg-ultra-surface border border-ultra-border rounded-xl px-4 py-3 text-sm text-ultra-text focus:outline-none focus:border-ultra-cyan transition-colors"
                     placeholder="you@email.com" required>
             </div>
-
             <div>
                 <label class="block text-xs font-mono text-ultra-sub uppercase tracking-widest mb-2">Password</label>
                 <input type="password" name="password"
                     class="w-full bg-ultra-surface border border-ultra-border rounded-xl px-4 py-3 text-sm text-ultra-text focus:outline-none focus:border-ultra-cyan transition-colors"
-                    placeholder="••••••••" required>
+                    placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" required>
             </div>
-
             <div class="flex items-center justify-between text-xs">
                 <label class="flex items-center gap-2 cursor-pointer text-ultra-sub">
-                    <input type="checkbox" name="remember" class="accent-cyan-500">
-                    Remember me
+                    <input type="checkbox" name="remember" class="accent-cyan-500"> Remember me
                 </label>
                 <a href="#" class="text-ultra-cyan hover:underline">Forgot password?</a>
             </div>
-
             <button type="submit" class="w-full py-4 bg-gradient-to-r from-ultra-cyan to-ultra-violet text-white font-display font-bold rounded-xl text-sm hover:opacity-90 transition-opacity">
-                Sign In →
+                Sign In &rarr;
             </button>
-
-            <!-- Divider -->
             <div class="flex items-center gap-3">
                 <div class="flex-1 h-px bg-ultra-border"></div>
                 <span class="text-xs text-ultra-sub font-mono">OR</span>
                 <div class="flex-1 h-px bg-ultra-border"></div>
             </div>
-
-            <!-- Wallet Sign In -->
             <button type="button" onclick="window.location='/wallet.php'"
                 class="wallet-btn w-full py-3 border border-ultra-border rounded-xl text-sm font-medium text-ultra-sub hover:text-ultra-text hover:border-ultra-muted transition-colors flex items-center justify-center gap-2">
-                🦊 Continue with Wallet
+                &#x1F98A; Continue with Wallet
             </button>
         </form>
-
         <p class="text-center text-ultra-sub text-sm mt-6">
             Don't have an account? <a href="/register.php" class="text-ultra-cyan hover:underline">Create one</a>
         </p>
