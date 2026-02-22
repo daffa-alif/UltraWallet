@@ -1,0 +1,15 @@
+{
+    "name": "ultrawallet/app",
+    "description": "UltraWallet - Web3 Multi-Asset Platform",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "mongodb/mongodb": "^1.16",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "UltraWallet\\": "src/"
+        }
+    }
+}
