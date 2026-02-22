@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body { background: #050810; color: #f9fafb; font-family: 'DM Sans', sans-serif; }
+.noise-bg::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: 0.4;
+}
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(6,182,212,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(6,182,212,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+.glow-border { box-shadow: 0 0 0 1px rgba(6,182,212,0.3), 0 0 20px rgba(6,182,212,0.1); }
+.glow-gold   { box-shadow: 0 0 0 1px rgba(245,158,11,0.3), 0 0 20px rgba(245,158,11,0.1); }
+.glow-violet { box-shadow: 0 0 0 1px rgba(139,92,246,0.3), 0 0 20px rgba(139,92,246,0.1); }
+.glow-green  { box-shadow: 0 0 0 1px rgba(16,185,129,0.3), 0 0 20px rgba(16,185,129,0.1); }
+.nav-link{position:relative;transition:color .2s}
+.nav-link::after{content:'';position:absolute;bottom:-4px;left:0;right:0;height:1px;background:#06b6d4;transform:scaleX(0);transition:transform .3s}
+.nav-link:hover::after,.nav-link.active::after{transform:scaleX(1)}
+.asset-card{transition:transform .3s,box-shadow .3s}
+.asset-card:hover{transform:translateY(-4px)}
+.wallet-btn{position:relative;overflow:hidden;transition:all .3s}
+.wallet-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.05),transparent);transition:left .5s}
+.wallet-btn:hover::before{left:100%}
+.ticker-wrap{overflow:hidden;white-space:nowrap}
+.ticker-inner{display:inline-block;animation:ticker 30s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0d1117; }
+::-webkit-scrollbar-thumb { background: #06b6d4; border-radius: 2px; }
+.stat-number{font-family:'Space Mono',monospace;background:linear-gradient(135deg,#06b6d4,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}

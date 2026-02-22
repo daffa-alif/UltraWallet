@@ -1,6 +1,54 @@
 # UltraWallet — Web3 Multi-Asset Platform
 
-## Requirements
+## Next.js (Vercel) App
+
+This folder now contains a Next.js app ready for Vercel.
+
+### Quick Start
+
+1. Create `.env.local`:
+   ```
+   MONGODB_URI=your-mongodb-atlas-connection-string
+   MONGODB_DB=ultrawallet
+   JWT_SECRET=generate-a-strong-secret
+   ```
+2. Install and run:
+   ```
+   npm install
+   npm run dev
+   ```
+3. Open http://localhost:3000
+
+### Deploy to Vercel
+
+- Push this repo and import in Vercel
+- Set the same Environment Variables in Vercel Project Settings
+- Vercel auto-detects Next.js and deploys
+
+### Structure (Next.js)
+```
+app/
+  page.tsx            ← Home
+  login/page.tsx      ← Login
+  register/page.tsx   ← Register
+  dashboard/page.tsx  ← Protected dashboard
+  api/
+    login/route.ts    ← Login API (JWT cookie)
+    register/route.ts ← Register API
+    logout/route.ts   ← Logout
+lib/
+  auth.ts             ← JWT helpers
+  mongodb.ts          ← MongoDB client
+middleware.ts         ← Protect /dashboard
+```
+
+---
+
+## Legacy PHP App
+
+The original PHP implementation remains here for reference, but is not used on Vercel.
+
+### Requirements
 
 - PHP 8.0+
 - XAMPP (or any Apache/Nginx server with PHP)
@@ -45,7 +93,7 @@ Edit `.env` and update `MONGO_URI` with your Atlas connection string:
 3. Copy the connection string, replace `<password>` with `DbUserPassword0101`
 4. Paste it as `MONGO_URI` in `.env`
 
-### Step 3 — Run the project
+### Step 3 — Run the project (PHP)
 
 Place the `ultrawallet/` folder inside `C:\xampp\htdocs\` or run:
 ```
