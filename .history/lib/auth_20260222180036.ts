@@ -19,14 +19,14 @@ export function setSessionCookie(token: string) {
   cookies().set(COOKIE_NAME, token, {
     httpOnly: true,
     sameSite: 'strict',
-    secure: process.env.NODE_ENV === 'production',
+    secure: true,
     path: '/',
     maxAge: 60 * 60 * 24 * 7
   })
 }
 
 export function clearSessionCookie() {
-  cookies().set(COOKIE_NAME, '', { httpOnly: true, sameSite: 'strict', secure: process.env.NODE_ENV === 'production', path: '/', maxAge: 0 })
+  cookies().set(COOKIE_NAME, '', { httpOnly: true, sameSite: 'strict', secure: true, path: '/', maxAge: 0 })
 }
 
 export function readSession() {
